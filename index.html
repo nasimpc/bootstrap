@@ -23,7 +23,7 @@
             <input id="description" class="form-control" type="text" name="description" required />
 
             <label calss="form-label">Choose category
-                <select id="category" class="form-control" name="category">
+                <select id="category" class="form-select" name="category">
                     <option value="" selected="selected">Select One</option>
                     <option value="fuel">fuel</option>
                     <option value="food">food</option>
@@ -51,8 +51,9 @@
             // Add text to div
             //var a = document.querySelector('#body');
             var script = document.querySelector('#script');
-            linebreak = document.createElement("br");
+            linebreak = document.createElement("p");
             var div = document.createElement('div');
+            div.className = 'container';
             div.appendChild(newText);
             //a.insertBefore(newText, b);
             //delete btn
@@ -67,6 +68,7 @@
             div.appendChild(deleteBtn);
             //a.insertBefore(linebreak, b);
             div.appendChild(linebreak);
+
             body.insertBefore(div, script);
 
 
