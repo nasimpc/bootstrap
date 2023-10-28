@@ -13,17 +13,106 @@
         crossorigin="anonymous"></script>
 </head>
 
-<body>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-    dolores suscipit numquam fuga, eligendi veniam similique culpa
-    adipisci modi voluptate ducimus nobis eos fugit provident nihil
-    reprehenderit obcaecati ut repudiandae sequi officiis maxime eaque?
-    Cum voluptatum provident, hic magni maxime saepe praesentium dolores
-    voluptates tempora cumque ad reprehenderit corporis vitae. Quaerat,
-    expedita a sit deleniti officiis temporibus magni omnis enim?
-    Exercitationem explicabo eveniet in nisi placeat saepe modi
-    assumenda veritatis, quisquam laborum, possimus omnis consequatur
-    temporibus maxime eligendi, vel sapiente perspiciatis!
+<body id="body">
+    <br>
+    <div class="container">
+        <form onsubmit="saveToLocalStorage(event)">
+            <label calss="form-label"> Expense amount</label>
+            <input id="amount" class="form-control" type="number" name="amount" required />
+            <label calss="form-label"> Choose description</label>
+            <input id="description" class="form-control" type="text" name="description" required />
+
+            <label calss="form-label">Choose category
+                <select id="category" class="form-control" name="category">
+                    <option value="" selected="selected">Select One</option>
+                    <option value="fuel">fuel</option>
+                    <option value="food">food</option>
+                    <option value="electricity">electricity</option>
+                    <option value="movie">movie</option>
+                </select>
+            </label>
+            <button class="btn btn-primary"> Add Expence </button><br>
+
+
+        </form>
+    </div>
+    <p></p>
+    <script id="script">
+        var body = document.getElementById('body');
+        body.addEventListener('click', removeItem);
+        function saveToLocalStorage(e) {
+            e.preventDefault();
+            const amount = event.target.amount.value;
+            const description = event.target.description.value;
+            const category = event.target.category.value;
+
+            var newText = document.createTextNode(amount + ' ' + description + ' ' + category + ' ');
+
+            // Add text to div
+            //var a = document.querySelector('#body');
+            var script = document.querySelector('#script');
+            linebreak = document.createElement("br");
+            var div = document.createElement('div');
+            div.appendChild(newText);
+            //a.insertBefore(newText, b);
+            //delete btn
+            var deleteBtn = document.createElement('button');
+            var editBtn = document.createElement('button');
+            deleteBtn.className = 'btn btn-sm btn-danger float-right delete';
+            editBtn.className = 'btn btn-sm btn-primary float-right';
+            deleteBtn.appendChild(document.createTextNode('Delete expense'));
+            editBtn.appendChild(document.createTextNode('Edit expense'));
+            //a.insertBefore(deleteBtn, b);
+            div.appendChild(editBtn);
+            div.appendChild(deleteBtn);
+            //a.insertBefore(linebreak, b);
+            div.appendChild(linebreak);
+            body.insertBefore(div, script);
+
+
+            const obj = {
+                amount: amount,
+                description: description,
+                category: category
+            }
+            localStorage.setItem(amount, JSON.stringify(obj));
+        }
+        // Remove item
+        function removeItem(e) {
+            if (e.target.classList.contains('delete')) {
+                if (confirm('Are You Sure?')) {
+                    var div = e.target.parentElement;
+                    body.removeChild(div);
+                    console.log(div);
+                    var words = div.firstChild.wholeText;
+
+                    var n = words.split(" ");
+                    //console.log(n[n.length - 2]);
+                    localStorage.removeItem(n[n.length - 2]);
+                }
+            }
+            else if (e.target.classList.contains('btn-sm')) {
+                var div = e.target.parentElement;
+                body.removeChild(div);
+                console.log(div);
+                var words = div.firstChild.wholeText;
+
+                var n = words.split(" ");
+                //console.log(n[n.length - 2]);
+                localStorage.removeItem(n[n.length - 2]);
+                var name = document.getElementById('amount');
+                name.value = n[0];
+                var email = document.getElementById('description');
+                email.value = n[1];
+                var phno = document.getElementById('category');
+                phno.value = n[2];
+
+
+            }
+
+        }
+
+    </script>
 </body>
 
 </html>
